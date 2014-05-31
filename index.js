@@ -1,14 +1,14 @@
 var leveljs = require('level-js')
 var MemDOWN = require('memdown')
-//var hasIDB = !!(window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB)
+var hasIDB = false; //!!(window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB)
 
 function Cache(opts) {
   var self = this
   opts = opts || {}
   opts.name = opts.name || 'browser-module-cache'
   this.ready = false
-  //if (hasIDB && !(opts.inMemory)) this.db = leveljs(opts.name)
-  /*else */this.db = new MemDOWN(opts.name)
+  if (hasIDB && !(opts.inMemory)) this.db = leveljs(opts.name)
+  else this.db = new MemDOWN(opts.name)
   this.db.open(function(err, db) {
     if (err) return console.error(err)
     self.ready = true
